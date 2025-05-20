@@ -8,3 +8,7 @@ https://github.com/YukiAminaka/road-surface-recognition
 右上の検索ボックスか地図を2点クリックすることで、ルートが検索されます。ルートはドラッグして動かして調整できます。
 「save as GPX」を押すとgoogle map等の地図アプリで使用できるGPXファイルが保存され、地図アプリ上に作成したルートを表示できます。
 ![Image](https://github.com/user-attachments/assets/41c05345-7806-495d-b41b-eb69d29fabf0)
+
+### ルート検索
+ルート検索にはMaps Javascript APIを使用しています。
+![Image](https://github.com/user-attachments/assets/0f4e9885-a28b-45ff-9c34-4e110cbd39d5)
