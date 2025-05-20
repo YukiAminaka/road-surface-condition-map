@@ -2,3 +2,6 @@
 
 ## システム構成
 ![Image](https://github.com/user-attachments/assets/63505cef-a6c5-4cb4-9ab5-bc361e7436e1)
+
+地図上に路面の粗さ(滑らかな路面・中間・荒れた路面)と、計測時の走行状態(停止・自転車を振って走った状態)を色別の点でプロットします。
+![Image](https://github.com/user-attachments/assets/41c05345-7806-495d-b41b-eb69d29fabf0)
