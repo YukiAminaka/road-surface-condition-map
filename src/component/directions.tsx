@@ -8,6 +8,9 @@ import {
 } from "@vis.gl/react-google-maps";
 import { saveAs } from "file-saver";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import Legend from "./Legend";
 
 type Props = {
   originMarkerPosition: google.maps.LatLngLiteral | null;
@@ -184,6 +187,7 @@ export function Directions({
     setOriginMarkerPosition(null);
     setDestinationMarkerPosition(null);
     reset({ origin: "", destination: "" });
+    setRoutes([]); // ルートをクリア
 
     if (directionsRenderer) {
       directionsRenderer.setMap(null); // マップから削除
@@ -202,16 +206,60 @@ export function Directions({
 
   return (
     <>
-      <div className="directions">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input placeholder="origin" {...register("origin")} />
-          <input placeholder="destination" {...register("destination")} />
-          <button type="submit">search</button>
+      <div className="flex flex-col self-stretch gap-2 absolute w-[275px] bg-[#2d3748] rounded m-1 p-5 right-0 top-0">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex gap-2 items-end"
+        >
+          <div className="flex flex-col gap-1">
+            <Input
+              placeholder="origin"
+              className="rounded-xs h-7"
+              {...register("origin")}
+            />
+            <Input
+              placeholder="destination"
+              className="rounded-xs h-7"
+              {...register("destination")}
+            />
+          </div>
+          <Button
+            type="submit"
+            className="bg-blue-600 h-7 rounded-xs cursor-pointer w-15 hover:bg-blue-400"
+          >
+            search
+          </Button>
         </form>
-        <button onClick={clear}>clear</button>
-        <button onClick={saveRoutesAsGPX} className="save-button">
-          Save as GPX
-        </button>
+        <div className="flex items-center gap-2">
+          <Button
+            onClick={clear}
+            className="h-7 rounded-xs cursor-pointer hover:bg-slate-800"
+          >
+            clear
+          </Button>
+          <Button
+            onClick={saveRoutesAsGPX}
+            className="h-7 rounded-xs cursor-pointer hover:bg-slate-800"
+          >
+            Save as GPX
+          </Button>
+        </div>
+        <h3 className="text-white">STATUS</h3>
+        <Legend />
+
+        <div className="flex flex-col gap-1">
+          {routes.map((route, index) => (
+            <div key={index} className="text-sm text-white">
+              {route.summary}
+            </div>
+          ))}
+
+          {routes.map((route, index) => (
+            <div key={index} className="text-sm text-white">
+              {route.legs[0].duration?.text || "No duration"}
+            </div>
+          ))}
+        </div>
       </div>
       {originMarkerPosition && (
         <Marker
