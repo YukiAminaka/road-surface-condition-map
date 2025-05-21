@@ -5,51 +5,51 @@ import { APIProvider } from "@vis.gl/react-google-maps";
 import { MyMap } from "./component/myMap";
 
 import { useQuery } from "@tanstack/react-query";
-import { Layer, ScatterplotLayer } from "deck.gl";
+import { Layer } from "deck.gl";
 import { DeckGlOverlay } from "./deckgl-overlay";
 
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string;
 
-type RoadSurface = {
-  lat: number;
-  lon: number;
-  alt: number;
-  status: string;
-};
+// type RoadSurface = {
+//   lat: number;
+//   lon: number;
+//   alt: number;
+//   status: string;
+// };
 
-const defineColor = (status: string): [number, number, number] => {
-  switch (status) {
-    case "SMOOTH":
-      return [0, 255, 0]; //green
-    case "MEDIUM":
-      return [255, 255, 0]; //yellow
-    case "ROUGH":
-      return [255, 0, 0]; //red
-    case "SPRINT":
-      return [0, 0, 255]; //blue
-    case "IDLE":
-      return [0, 255, 255]; //cyan
-    default:
-      return [0, 0, 0]; //black
-  }
-};
+// const defineColor = (status: string): [number, number, number] => {
+//   switch (status) {
+//     case "SMOOTH":
+//       return [0, 255, 0]; //green
+//     case "MEDIUM":
+//       return [255, 255, 0]; //yellow
+//     case "ROUGH":
+//       return [255, 0, 0]; //red
+//     case "SPRINT":
+//       return [0, 0, 255]; //blue
+//     case "IDLE":
+//       return [0, 255, 255]; //cyan
+//     default:
+//       return [0, 0, 0]; //black
+//   }
+// };
 
 const App = () => {
-  const layer = new ScatterplotLayer<RoadSurface>({
-    id: "ScatterplotLayer",
-    data: "../../public/2024-12-27-16-01-15.json",
+  // const layer = new ScatterplotLayer<RoadSurface>({
+  //   id: "ScatterplotLayer",
+  //   data: "../../public/2024-12-27-16-01-15.json",
 
-    stroked: false,
-    getPosition: (d: RoadSurface) => [d.lon, d.lat],
-    // getRadius: (d: BartStation) => Math.sqrt(d.exits),
-    getRadius: 10,
-    getFillColor: (d: RoadSurface) => defineColor(d.status),
-    getLineColor: [0, 0, 0],
-    getLineWidth: 2,
-    radiusUnits: "meters",
-    radiusScale: 3,
-    pickable: true,
-  });
+  //   stroked: false,
+  //   getPosition: (d: RoadSurface) => [d.lon, d.lat],
+  //   // getRadius: (d: BartStation) => Math.sqrt(d.exits),
+  //   getRadius: 10,
+  //   getFillColor: (d: RoadSurface) => defineColor(d.status),
+  //   getLineColor: [0, 0, 0],
+  //   getLineWidth: 2,
+  //   radiusUnits: "meters",
+  //   radiusScale: 3,
+  //   pickable: true,
+  // });
 
   /*carto map ----------------------------------------------- */
   const [layers, setLayers] = useState<Layer<{}>[]>([]);
