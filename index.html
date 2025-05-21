@@ -2,18 +2,19 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, user-scalable=no"
     />
-    <title>Example: deck.gl Interleaved Overlay</title>
+    <title>road surface condition map</title>
 
     <style>
       body {
         margin: 0;
         font-family: sans-serif;
       }
-      #app {
+      #root {
         width: 100vw;
         height: 100vh;
       }
@@ -32,10 +33,7 @@
     </style>
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module">
-      import { renderToDom } from "./src/App";
-      renderToDom(document.querySelector("#app"));
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

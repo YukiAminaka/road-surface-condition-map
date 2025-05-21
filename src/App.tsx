@@ -1,35 +1,15 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 
-import {
-  APIProvider,
-  ControlPosition,
-  Map,
-  MapControl,
-  MapMouseEvent,
-  useMap,
-} from "@vis.gl/react-google-maps";
+import { APIProvider } from "@vis.gl/react-google-maps";
 import { MyMap } from "./component/myMap";
-import { GeoJsonLayer } from "@deck.gl/layers";
-// import {DeckGlOverlay} from './deckgl-overlay';
 import { fetchMap } from "@deck.gl/carto";
-const DATA_URL =
-  "https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/bart.geo.json";
 
-import type { Feature, GeoJSON } from "geojson";
-import { DeckGlOverlay, DeckglOverlayProps } from "./deckgl-overlay";
+import { DeckGlOverlay } from "./deckgl-overlay";
 import { Layer, ScatterplotLayer } from "deck.gl";
-import { Directions } from "./component/directions";
 import { useQuery } from "@tanstack/react-query";
 
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string;
-
-type BartStation = {
-  name: string;
-  entries: number;
-  exits: number;
-  coordinates: [longitude: number, latitude: number];
-};
 
 type RoadSurface = {
   lat: number;
@@ -56,29 +36,6 @@ const defineColor = (status: string): [number, number, number] => {
 };
 
 const App = () => {
-  const [data, setData] = useState<GeoJSON | null>(null);
-
-  // useEffect(() => {
-  //   fetch(DATA_URL)
-  //     .then((res) => res.json())
-  //     .then((data) => setData(data as GeoJSON));
-  // }, []);
-
-  // const layer = new ScatterplotLayer<BartStation>({
-  //   id: "ScatterplotLayer",
-  //   data: "https://raw.githubusercontent.com/visgl/deck.gl-data/master/website/bart-stations.json",
-
-  //   stroked: false,
-  //   getPosition: (d: BartStation) => d.coordinates,
-  //   // getRadius: (d: BartStation) => Math.sqrt(d.exits),
-  //   getRadius: 10,
-  //   getFillColor: [255, 140, 0],
-  //   getLineColor: [0, 0, 0],
-  //   getLineWidth: 2,
-  //   radiusUnits: "meters",
-  //   radiusScale: 1,
-  //   pickable: true,
-  // });
   const layer = new ScatterplotLayer<RoadSurface>({
     id: "ScatterplotLayer",
     data: "../../public/2024-12-27-16-01-15.json",
@@ -94,27 +51,30 @@ const App = () => {
     radiusScale: 3,
     pickable: true,
   });
+
   /*carto map ----------------------------------------------- */
   const [layers, setLayers] = useState<Layer<{}>[]>([]);
   const cartoMapId = import.meta.env.VITE_CARTO_MAP_ID;
   const apiBaseUrl = import.meta.env.VITE_CARTO_API_BASE_URL;
-  const fechLayer = useCallback(async () => {
+
+  const fetchLayer = useCallback(async () => {
     const { layers } = await fetchMap({
       cartoMapId,
       apiBaseUrl,
-      // autoRefresh: 5,
-      // onNewData: ({ layers }) => {
-      //   setLayers(layers);
-      // },
     });
-    console.log(layer);
-    setLayers([layer]);
-    //setLayers(layers);//cartoのデータ
+    return layers;
   }, []);
 
+  const { data } = useQuery({
+    queryKey: ["layer"],
+    queryFn: fetchLayer,
+  });
+
   useEffect(() => {
-    fechLayer();
-  }, []);
+    if (data) {
+      setLayers(data);
+    }
+  }, [data]);
 
   return (
     <APIProvider apiKey={API_KEY}>
@@ -128,59 +88,45 @@ const App = () => {
         <DeckGlOverlay layers={layers} />
       </MyMap>
 
+      {/* サンプルのjsonデータを表示する場合上のMyMapをコメントアウトしてここのコメントアウトを外す */}
       {/* <MyMap
         defaultCenter={{ lat: 35.6894, lng: 139.6917 }}
         defaultZoom={11}
         mapId={"4f6dde3310be51d7"}
         gestureHandling={"greedy"}
-        // disableDefaultUI={true}
       >
         <DeckGlOverlay layers={[layer]} />
       </MyMap> */}
-      {/* <ControlPanel /> */}
-      {/* <MapControl position={ControlPosition.TOP_CENTER}>
-        <UndoRedoControl drawingManager={drawingManager} />
-      </MapControl> */}
     </APIProvider>
   );
 };
 
-function getDeckGlLayers(data: GeoJSON | null) {
-  if (!data) return [];
+// function getDeckGlLayers(data: GeoJSON | null) {
+//   if (!data) return [];
 
-  return [
-    new GeoJsonLayer({
-      id: "geojson-layer",
-      data,
-      stroked: false,
-      filled: true,
-      extruded: true,
-      pointType: "circle",
-      lineWidthScale: 20,
-      lineWidthMinPixels: 4,
-      getFillColor: [160, 160, 180, 200],
-      getLineColor: (f: Feature) => {
-        const hex = f?.properties?.color;
+//   return [
+//     new GeoJsonLayer({
+//       id: "geojson-layer",
+//       data,
+//       stroked: false,
+//       filled: true,
+//       extruded: true,
+//       pointType: "circle",
+//       lineWidthScale: 20,
+//       lineWidthMinPixels: 4,
+//       getFillColor: [160, 160, 180, 200],
+//       getLineColor: (f: Feature) => {
+//         const hex = f?.properties?.color;
 
-        if (!hex) return [0, 0, 0];
+//         if (!hex) return [0, 0, 0];
 
-        return hex.match(/[0-9a-f]{2}/g)!.map((x: string) => parseInt(x, 16));
-      },
-      getPointRadius: 200,
-      getLineWidth: 1,
-      getElevation: 30,
-    }),
-  ];
-}
+//         return hex.match(/[0-9a-f]{2}/g)!.map((x: string) => parseInt(x, 16));
+//       },
+//       getPointRadius: 200,
+//       getLineWidth: 1,
+//       getElevation: 30,
+//     }),
+//   ];
+// }
 
 export default App;
-
-export function renderToDom(container: HTMLElement) {
-  const root = createRoot(container);
-
-  root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  );
-}
