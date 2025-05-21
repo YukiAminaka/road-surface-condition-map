@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { createRoot } from "react-dom/client";
+import { useCallback, useEffect, useState } from "react";
 
+import { fetchMap } from "@deck.gl/carto";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { MyMap } from "./component/myMap";
-import { fetchMap } from "@deck.gl/carto";
 
-import { DeckGlOverlay } from "./deckgl-overlay";
-import { Layer, ScatterplotLayer } from "deck.gl";
 import { useQuery } from "@tanstack/react-query";
+import { Layer, ScatterplotLayer } from "deck.gl";
+import { DeckGlOverlay } from "./deckgl-overlay";
 
 const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY as string;
 

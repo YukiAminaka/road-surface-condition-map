@@ -1,5 +1,3 @@
-import React from "react";
-
 const legendItems = [
   { label: "ROUGH", color: "red" },
   { label: "IDLE", color: "steelblue" },

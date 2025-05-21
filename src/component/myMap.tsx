@@ -1,4 +1,4 @@
-import { MapMouseEvent, Map, MapProps } from "@vis.gl/react-google-maps";
+import { Map, MapMouseEvent, MapProps } from "@vis.gl/react-google-maps";
 import { ReactElement, useCallback, useState } from "react";
 import { Directions } from "./directions";
 
