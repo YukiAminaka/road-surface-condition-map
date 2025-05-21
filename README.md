@@ -1,50 +1,14 @@
-# React + TypeScript + Vite
+## 路面の粗さを可視化するアプリケーションです。
+計測デバイスのリポジトリ
+https://github.com/YukiAminaka/road-surface-recognition
+## システム構成
+![Image](https://github.com/user-attachments/assets/63505cef-a6c5-4cb4-9ab5-bc361e7436e1)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+地図上に路面の粗さ(滑らかな路面・中間・荒れた路面)と、計測時の走行状態(停止・自転車を振って走った状態)を色別の点でプロットします。
+右上の検索ボックスか地図を2点クリックすることで、ルートが検索されます。ルートはドラッグして動かして調整できます。
+「save as GPX」を押すとgoogle map等の地図アプリで使用できるGPXファイルが保存され、地図アプリ上に作成したルートを表示できます。
+![Image](https://github.com/user-attachments/assets/41c05345-7806-495d-b41b-eb69d29fabf0)
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+### ルート検索
+ルート検索にはMaps Javascript APIを使用しています。
+![Image](https://github.com/user-attachments/assets/0f4e9885-a28b-45ff-9c34-4e110cbd39d5)
