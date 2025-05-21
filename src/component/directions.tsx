@@ -27,8 +27,6 @@ export function Directions({
     useState<google.maps.DirectionsService>(); //ルート計算を行うためのGoogle Maps APIの DirectionsService インスタンスを管理
   const [directionsRenderer, setDirectionsRenderer] =
     useState<google.maps.DirectionsRenderer>(); //計算されたルートを地図上に描画するための DirectionsRenderer インスタンスを管理。
-  const [updatedRoute, setUpdatedRoute] =
-    useState<google.maps.DirectionsRoute | null>(null);
   const [routes, setRoutes] = useState<google.maps.DirectionsRoute[]>([]); //計算されたルートを管理
 
   useEffect(() => {
@@ -119,12 +117,9 @@ export function Directions({
     destination: string;
   };
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<Inputs>({ defaultValues: { origin: "", destination: "" } });
+  const { register, handleSubmit, reset } = useForm<Inputs>({
+    defaultValues: { origin: "", destination: "" },
+  });
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     console.log(data);
     if (!directionsService || !directionsRenderer) return; //directionsService または directionsRenderer が存在する場合のみ、ルート計算を行う
