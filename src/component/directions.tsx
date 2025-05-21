@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
-import {
-  Map,
-  MapMouseEvent,
-  Marker,
-  useMap,
-  useMapsLibrary,
-} from "@vis.gl/react-google-maps";
-import { saveAs } from "file-saver";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Marker, useMap, useMapsLibrary } from "@vis.gl/react-google-maps";
+import { saveAs } from "file-saver";
+import { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Legend from "./Legend";
 
 type Props = {
