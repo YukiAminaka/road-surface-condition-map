@@ -1,6 +1,8 @@
 ## 路面の粗さを可視化するアプリケーションです。
 計測デバイスのリポジトリ
 https://github.com/YukiAminaka/road-surface-recognition
+機械学習モデルの構築はedge impulseで行いました。
+https://studio.edgeimpulse.com/public/573911/live
 ## システム構成
 ![Image](https://github.com/user-attachments/assets/63505cef-a6c5-4cb4-9ab5-bc361e7436e1)
 
